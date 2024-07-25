@@ -1,0 +1,13 @@
+#23-jul
+
+admin panel:
+
+* space validation  --- Completed
+
+front end:
+
+* specific product filter  --- Completed
+
+* cart section   --- Completed
+
+* logout redirection to home      --- Completed

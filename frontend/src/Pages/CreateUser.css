@@ -1,0 +1,20 @@
+
+  .containerc {
+    text-align: left;
+    color: rgb(255, 255, 255); /* Change text color for better visibility */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5); /* Optional: Add semi-transparent background for better text readability */
+    border-radius: 10px;
+    width: 450px; /* Adjust width as needed */
+    max-width: 90%; /* Ensure it doesn't exceed 90% of viewport width */
+  }
+  
+ 
+  
+  .center-containerc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+  }
+  

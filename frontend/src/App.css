@@ -1,0 +1,25 @@
+
+
+body {
+    background: linear-gradient(to right, #3366cc, #33cc99, #ffcc33, #ff6666);
+    margin: 0;
+    height: 100vh;
+    padding-top: 45px;
+  }
+
+.homeB{
+  align-items: center;
+  display: flex;
+}
+  
+.card-title {
+  font-size: 1.25rem;
+  min-height: 3rem; /* Adjust as needed */
+}
+
+.card-body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}

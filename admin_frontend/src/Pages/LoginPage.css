@@ -1,0 +1,45 @@
+body {
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    #ee7724,
+    #d8363a,
+    #dd3675,
+    #b44593
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+.lcenter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.lform {
+  width: 100%; /* Ensures the form fills its parent container */
+  max-width: 400px; /* Adjust width of the form as needed */
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);/* Transparent background with 80% opacity */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  color: #ffffff;
+}
+.password-input-container {
+  position: relative;
+}
+
+.toggle-password-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #007bff;
+  cursor: pointer;
+}

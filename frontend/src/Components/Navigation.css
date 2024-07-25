@@ -1,0 +1,92 @@
+Navigation.css .unique-nav {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  position: static; /* Static position */
+  width: 100%;
+  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+}
+
+.unique-nav .nav-link {
+  color: #000; /* Black color for nav links */
+  font-weight: bold;
+}
+
+.unique-nav .nav-link:hover {
+  color: #fff; /* White color on hover */
+  background: linear-gradient(
+    to right,
+    #3366cc,
+    #33cc99,
+    #ffcc33,
+    #ff6666
+  ); /* Gradient background on hover */
+  border-radius: 5px;
+}
+
+.unique-nav-container {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100% !important;
+  height: 6%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-button {
+  color: #000; /* Black font color */
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  background-color: #fff; /* White background color */
+}
+
+.dropdown-button:hover {
+  background-color: var(--bs-btn-bg); /* Use the custom background color on hover */
+  color: #fff; /* Font color on hover */
+}
+
+
+  .custom-button {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Ensure button width is 100% to fill the dropdown */
+  }
+
+
+.custom-button:hover {
+  color: #fff; /* White color on hover */
+  background: linear-gradient(
+    to right,
+    #3366cc,
+    #33cc99,
+    #ffcc33,
+    #ff6666
+  ); /* Gradient background on hover */
+  border-radius: 5px;
+}
+
+.custom-button1 {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #000;
+  border: 0.5px rgba(255, 255, 255, 0.8);
+  transition: background-color 0.3s ease;
+  width: 5%; /* Ensure button width is 100% to fill the dropdown */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+.custom-button1:hover {
+color: #fff; /* White color on hover */
+background: linear-gradient(
+  to right,
+  #3366cc,
+  #33cc99,
+  #ffcc33,
+  #ff6666
+); /* Gradient background on hover */
+border-radius: 5px;
+}

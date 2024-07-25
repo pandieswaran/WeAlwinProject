@@ -1,0 +1,26 @@
+.sidebar {
+    background-color: #f8f9fa; /* Example background color */
+    padding: 10px;
+    width: 130px;
+  }
+  
+  .sidebar-heading {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-dropdown .custom-dropdown-menu {
+    background-color: #fff; /* Example background color for dropdown menu */
+    border: 1px solid #ccc; /* Example border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example shadow */
+  }
+  
+  .sidebar-dropdown .custom-dropdown-menu a {
+    color: #333; /* Example text color */
+  }
+  
+  .sidebar-dropdown .custom-dropdown-menu a:hover {
+    background-color: #f0f0f0; /* Example hover background color */
+    color: #000; /* Example hover text color */
+  }
+  

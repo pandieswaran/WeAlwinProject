@@ -1,0 +1,38 @@
+/* DetailedProduct.css */
+
+.product-detail-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light gray background for better contrast */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .product-detail-container img {
+    border-radius: 10px; /* Rounded corners for the image */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+  }
+  
+  .product-detail-container h2 {
+    font-size: 2em; /* Larger font size for the product name */
+    margin-bottom: 10px;
+  }
+  
+  .product-detail-container p {
+    font-size: 1.2em; /* Slightly larger font size for product details */
+    margin-bottom: 10px;
+  }
+  
+  .product-detail-container .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none;
+    border-radius: 5px; /* Rounded corners for the button */
+    padding: 10px 20px; /* More padding for a larger button */
+    font-size: 1em; /* Font size for the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  .product-detail-container .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  

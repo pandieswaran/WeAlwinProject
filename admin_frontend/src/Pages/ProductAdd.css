@@ -1,0 +1,31 @@
+body {
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      #ee7724,
+      #d8363a,
+      #dd3675,
+      #b44593
+    );
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+  }
+  
+ 
+  .pform {
+    width: 100%;
+    max-width: 400px; /* Adjust as needed */
+    padding: 50px;
+    background-color: rgba(240, 240, 240, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+
+  .pcenter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+  
+  }

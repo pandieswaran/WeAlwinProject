@@ -1,0 +1,30 @@
+GET  http://localhost:8000/category/${currentCategoryId}
+Content-Type: application/json
+
+{
+    "categoryid": "6698ba0a81f1ade33882f263"
+}
+
+
+###
+
+GET http://localhost:8000/cat/category
+
+
+###
+GET http://localhost:8000/sub/subcategory
+
+
+###
+GET  http://localhost:8000/products/669e473d47294007785ed70a'
+
+
+
+###
+
+GET http://localhost:8000/productf/669e475c47294007785ed711
+
+
+{
+    
+}
