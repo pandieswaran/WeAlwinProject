@@ -78,11 +78,11 @@ router.post('/cart', async (req, res) => {
 // Product Cart Route (GET)
 router.get('/cart/:userId', async (req, res) => {
   const userId = req.params.userId;
-  console.log(userId,"userIduserIduserId")
+  console.log(userId, "userIduserIduserId")
   try {
     // Fetch cart items for the user
     const cartItems = await Cart.find({ userId })
-    .populate('productId', 'ProductName Price Image Description')
+      .populate('productId', 'ProductName Price Image Description')
     res.json(cartItems);
     console.log(cartItems, "cartItemscartItems")
   } catch (error) {
@@ -94,11 +94,57 @@ router.get('/cart/:userId', async (req, res) => {
 // Product Cart Route (GET)
 router.delete('/cart/del/:id', async (req, res) => {
   const productId = req.params.id
-  console.log(productId,"productIdproductId")
+  console.log(productId, "productIdproductId")
   try {
     // Fetch cart items for the user
-    const cartItems = await Cart.findByIdAndDelete( productId )
-    res.json(cartItems);
+    const cartItems = await Cart.findByIdAndDelete(productId)
+    res.json({ message: 'Success', cartItems,status:true});
+    console.log(cartItems, "cartItemscartItems")
+  } catch (error) {
+    console.error('Error fetching  products:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//Product Quantity Decrement
+router.put('/cart/upd/:id', async (req, res) => {
+  const cartId = req.params.id
+  console.log(cartId, "cartIdcartId")
+  let { productId } = await Cart.findById(cartId)
+  console.log(productId, "productIdproductIdproductId")
+  let { Price } = await Product.findById(productId)
+  console.log(Price, "productPriceproductPriceproductPrice")
+  try {
+    const cartItems = await Cart.findOneAndUpdate({_id:cartId,productId:productId})
+    if (cartItems) {
+      cartItems.Quantity -= 1;
+      cartItems.totalPrice = Price * cartItems.Quantity;
+      await cartItems.save();
+    }
+    res.json({ message: 'Success', cartItems,status:true});
+    console.log(cartItems, "cartItemscartItems")
+  } catch (error) {
+    console.error('Error fetching  products:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//Product Quantity increment
+router.put('/cart/inc/:id', async (req, res) => {
+  const cartId = req.params.id
+  console.log(cartId, "cartIdcartId")
+  let { productId } = await Cart.findById(cartId)
+  console.log(productId, "productIdproductIdproductId")
+  let { Price } = await Product.findById(productId)
+  console.log(Price, "productPriceproductPriceproductPrice")
+  try {
+    const cartItems = await Cart.findOneAndUpdate({_id:cartId,productId:productId})
+    if (cartItems) {
+      cartItems.Quantity += 1;
+      cartItems.totalPrice = Price * cartItems.Quantity;
+      await cartItems.save();
+    }
+    res.json({ message: 'Success', cartItems,status:true});
     console.log(cartItems, "cartItemscartItems")
   } catch (error) {
     console.error('Error fetching  products:', error);
@@ -168,7 +214,7 @@ router.get('/product/:productId', async (req, res) => {
   try {
     const product = await Product.findById(productd)
       .populate('Category', 'CategoryName')
-      .populate('SubCategory','SubCategory')
+      .populate('SubCategory', 'SubCategory')
       .exec();
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -304,9 +350,20 @@ router.put('/subcategory/:subcategoryid', async (req, res) => {
 //Update The Already Exisiting Product Name or Any Other Data
 router.put('/product/:productId', upload.single('File'), async (req, res) => {
   const productId = req.params.productId;
+  console.log(productId,"productIdproductIdproductId")
   const { ProductName, Price, Description, Quantity, Category, SubCategory, Brand } = req.body;
-
+  console.log(ProductName, Price,  Quantity, Category, SubCategory, Brand)
   try {
+
+    // Validate and convert Category and SubCategory if provided
+    if (Category && !mongoose.Types.ObjectId.isValid(Category)) {
+      return res.status(400).json({ message: 'Invalid Category ID format' });
+    }
+
+    if (SubCategory && !mongoose.Types.ObjectId.isValid(SubCategory)) {
+      return res.status(400).json({ message: 'Invalid SubCategory ID format' });
+    }
+
     // Find product by ID and update fields
     const updateFields = {
       ProductName,
