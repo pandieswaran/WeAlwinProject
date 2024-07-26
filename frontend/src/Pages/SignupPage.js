@@ -25,7 +25,7 @@ function SignupPage() {
                 toast("User Added Successfully");
                 navigate('/login'); // Redirect to '/home' after successful submission
             })
-            .catch(err => console.log(err));
+            .catch(err => toast.error("Already User Register"));
     }
 
     return (
