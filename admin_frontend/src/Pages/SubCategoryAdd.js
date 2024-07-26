@@ -20,7 +20,7 @@ function SubCategoryAdd() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await Axios.get('http://localhost:8000/category');
+                const response = await Axios.get('http://localhost:8000/cat/category');
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);

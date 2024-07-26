@@ -3,6 +3,7 @@ import { Form, FormGroup, FormControl, Button, FormLabel } from 'react-bootstrap
 import Axios from 'axios';
 import '../Pages/LoginPage.css';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 function LoginPage() {
@@ -21,12 +22,12 @@ function LoginPage() {
       const response = await Axios.post('http://localhost:8000/login', { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
-      alert("Login Successfully");
+      toast.success("Login Successfully");
       Navigate('/home')
       window.location.reload()
     } catch (error) {
       console.error('Login failed:', error.response ? error.response.data.message : error.message);
-      alert("Login failed. Please check your credentials.");
+      toast.error("Login failed. Please check your credentials.");
     }
   };
 

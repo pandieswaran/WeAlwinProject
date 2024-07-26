@@ -3,12 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import '../Components/Nav.css';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Navigation() {
   const Navigate = useNavigate();
   const handleLogout = () => {
 
-    alert("Logged out successfully!");
+    toast.success("Logged out successfully!");
     localStorage.removeItem('token');
     Navigate('/login');
     window.location.reload()

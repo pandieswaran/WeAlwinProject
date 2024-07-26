@@ -79,7 +79,7 @@ function ProductUpdate() {
           Description: productData.Description || '',
           Quantity: productData.Quantity || '',
           // Category: productData.Category ? productData.Category._id : '',
-          Category: productData.Category.CategoryName,
+          Category: productData.Category._id,
           SubCategory: productData.SubCategory.SubCategory,
           Brand: productData.Brand || '',
           File: null
