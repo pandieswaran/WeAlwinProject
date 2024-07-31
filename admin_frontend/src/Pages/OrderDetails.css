@@ -1,0 +1,28 @@
+/* styles.css */
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    background-color: #ddd;
+  }
+  
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
+
+
+  
+  .status-active {
+    color: #1e7e34;
+  }
+  
+  .status-inactive {
+    color: #d32f2f;
+  }

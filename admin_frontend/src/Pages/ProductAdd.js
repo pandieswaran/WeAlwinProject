@@ -43,7 +43,7 @@ function ProductAdd() {
     }
   };
 
-  // Fetch Subcategories
+  
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
@@ -77,7 +77,7 @@ function ProductAdd() {
         }
       });
       console.log('Form submitted successfully:', response.data);
-      resetForm(); // Reset the form after successful submission
+      resetForm();
       navigate('/home');
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -171,8 +171,8 @@ function ProductAdd() {
                   value={values.Category.CategoryName}
                   onChange={(e) => {
                     handleChange(e);
-                    setSelectedCategory(e.target.value); // Update selected category
-                    setFieldValue('SubCategory', ''); // Reset SubCategory when Category changes
+                    setSelectedCategory(e.target.value);
+                    setFieldValue('SubCategory', ''); 
                   }}
                   isInvalid={touched.Category && !!errors.Category}
                 >

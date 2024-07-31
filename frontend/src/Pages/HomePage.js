@@ -19,7 +19,7 @@ function HomePage({ addToCart }) {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('http://localhost:8000/products');
-        setProducts(response.data);
+        setProducts(response.data.reverse());
         // console.log(response.data, "111")
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -72,7 +72,7 @@ function HomePage({ addToCart }) {
               aria-label="Search"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyPress={handleKeyPress} // Trigger search on Enter key press
+              onKeyPress={handleKeyPress} 
             />
           </Form>
         </div>
@@ -80,12 +80,14 @@ function HomePage({ addToCart }) {
           <Row xs={1} md={2} lg={3} xl={4} className="g-4">
             {products.map(product => (
               <Col key={product._id}>
-                <Card style={{ width: '20rem', height: '100%', marginBottom: '20px' }}>
+                <Card style={{ width: '20rem', height: '100%', marginBottom: '20px', borderColor: 'orange'}}>
+                <div className="zoom-container">
                   <Card.Img
                     variant="top"
                     src={product.Image}
                     style={{ height: '100%', objectFit: 'contain' }}
                   />
+                  </div>
                   <Card.Body className='card-body'>
                     <Card.Title
                       onClick={() => handleRedirect(product?._id)}
@@ -99,7 +101,6 @@ function HomePage({ addToCart }) {
                         : product.Description}
                     </p>
                     <p className='card-price'>Price: ₹{product.Price}</p>
-                    {/* Link to navigate to Cart page after adding to cart */}
                     {/* <Link to="/cart">
                       <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button variant="primary" className='homeB' onClick={() => handleAddToCart(product._id)}>

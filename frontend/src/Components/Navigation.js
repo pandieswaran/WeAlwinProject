@@ -92,7 +92,7 @@
 //                         >
 //                             Log In
 //                         </Button>
-//                     </div>
+//                     </div>l
 //                 )}
 //             </Nav>
 //         </div>
@@ -130,8 +130,6 @@ function Navigation() {
         fetchCategories();
     }, []);
 
-    console.log(categories, "5646546465465464")
-
     useEffect(() => {
         const fetchSubCategories = async () => {
             try {
@@ -145,7 +143,6 @@ function Navigation() {
         fetchSubCategories();
     }, []);
 
-    console.log(subCategories, "555555554545454545454")
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -158,12 +155,27 @@ function Navigation() {
         navigate('/home');
     };
 
-    // Organize subcategories by category
     const categorizedSubCategories = categories.map(category => ({
         ...category,
         subCategories: subCategories.filter(sub => sub.CategoryId === category._id)
     }));
 
+
+
+    const [cartItems, setCartItems] = useState([])
+    useEffect(() => {
+        const fetchCartItems = async () => {
+            const userId = localStorage.getItem('userid');
+            try {
+                const response = await Axios.get(`http://localhost:8000/cart/count/${userId}`);
+                setCartItems(response.data);
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
+        };
+        fetchCartItems()
+    }, []);
+   
     return (
         <div className="unique-nav-container">
             <Nav className="unique-nav" activeKey="/home">
@@ -192,6 +204,7 @@ function Navigation() {
                         >
                             Cart
                         </button>
+                        <span className="total-quantity">{cartItems}</span>
                         <div className="ms-auto">
                             <NavDropdown title="Profile" id="profile-dropdown">
                                 <Button

@@ -45,5 +45,5 @@ const LoginPage = async (req, res) => {
 //   });
 
 module.exports = {
-    LoginPage // Exporting createProduct function
+    LoginPage 
 };

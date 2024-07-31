@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from 'react-router-dom';
-
+import Form from 'react-bootstrap/Form';
 function ProductList() {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate()
@@ -34,9 +34,42 @@ function ProductList() {
         fetchSubCategories();
     }, []);
 
+    const [searchInput, setSearchInput] = useState('');
+
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await Axios.get(`http://localhost:8000/home/search?name=${searchInput}`);
+      setProducts(response.data);
+      console.log('Search Results:', response.data);
+    } catch (error) {
+      console.error('Error searching products:', error);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch(event);
+    }
+  };
+
+
     return (
         <div>
             <Navigation />
+            <div className="ms-auto w-25 pt-3">
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyPress={handleKeyPress} 
+            />
+          </Form>
+          </div>
             <h2>Product List</h2>
             <Table striped bordered hover>
                 <thead>

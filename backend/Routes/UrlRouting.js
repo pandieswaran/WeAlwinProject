@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 const router = express.Router();
 const { createProduct, upload } = require('../Controller/ProductController'); // Correct import for both the function and the upload configuration
 const { LoginPage } = require('../Controller/LoginPage');
@@ -76,20 +77,68 @@ router.post('/cart', async (req, res) => {
 });
 
 // Product Cart Route (GET)
-router.get('/cart/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  console.log(userId, "userIduserIduserId")
+router.get('/cart/alla', async (req, res) => {
   try {
-    // Fetch cart items for the user
-    const cartItems = await Cart.find({ userId })
+    const cartItems = await Cart.find().sort({ createdAt: -1 })
       .populate('productId', 'ProductName Price Image Description')
+      .populate('userId', 'name')
     res.json(cartItems);
-    console.log(cartItems, "cartItemscartItems")
   } catch (error) {
     console.error('Error fetching cart items and products:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+// Product Cart Route (GET)
+router.get('/cart/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  //console.log(userId,"userIduserId")
+  try {
+    const cartItems = await Cart.find({ userId }).populate('productId', 'ProductName Price Image Description');
+    
+    const filteredCartItems = cartItems.filter(item => item.status === false);
+    console.log(filteredCartItems, "filteredCartItems");
+    res.json(filteredCartItems);
+  } catch (error) {
+    console.error('Error fetching cart items and products:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
+// Product Cart Route (GET)
+router.get('/cart/count/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId,"userIduserId")
+  try {
+    const cartItems = await Cart.find({ userId })
+    const filteredCartItems = cartItems.filter(item => item.status === false);
+    const len =filteredCartItems.length;
+    console.log(len, "filteredCartItems");
+    res.json(len);
+  } catch (error) {
+    console.error('Error fetching cart items and products:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Product Buy
+router.put('/cart/buy/:id', async (req, res) => {
+  console.log(req.params)
+  const _id = req.params.id;
+  console.log(_id,"CartidCartt")
+  try {
+    const cartItems = await Cart.findOneAndUpdate( { _id }, { status: true }, { new: true })
+    res.json(cartItems);
+  } catch (error) {
+    console.error('Error ordering the product', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 // Product Cart Route (GET)
 router.delete('/cart/del/:id', async (req, res) => {
@@ -98,7 +147,7 @@ router.delete('/cart/del/:id', async (req, res) => {
   try {
     // Fetch cart items for the user
     const cartItems = await Cart.findByIdAndDelete(productId)
-    res.json({ message: 'Success', cartItems,status:true});
+    res.json({ message: 'Success', cartItems, status: true });
     console.log(cartItems, "cartItemscartItems")
   } catch (error) {
     console.error('Error fetching  products:', error);
@@ -108,46 +157,58 @@ router.delete('/cart/del/:id', async (req, res) => {
 
 //Product Quantity Decrement
 router.put('/cart/upd/:id', async (req, res) => {
-  const cartId = req.params.id
-  console.log(cartId, "cartIdcartId")
-  let { productId } = await Cart.findById(cartId)
-  console.log(productId, "productIdproductIdproductId")
-  let { Price } = await Product.findById(productId)
-  console.log(Price, "productPriceproductPriceproductPrice")
+  const cartId = req.params.id;
+  console.log(cartId, "cartIdcartId");
   try {
-    const cartItems = await Cart.findOneAndUpdate({_id:cartId,productId:productId})
-    if (cartItems) {
-      cartItems.Quantity -= 1;
-      cartItems.totalPrice = Price * cartItems.Quantity;
-      await cartItems.save();
+    const cartItem = await Cart.findById(cartId);
+    if (!cartItem) {
+      return res.status(404).json({ message: 'Cart item not found' });
     }
-    res.json({ message: 'Success', cartItems,status:true});
-    console.log(cartItems, "cartItemscartItems")
+    console.log(cartItem.productId, "productIdproductIdproductId");
+    const product = await Product.findById(cartItem.productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    console.log(product.Price, "productPriceproductPriceproductPrice");
+    if (cartItem.Quantity > 1) {
+      cartItem.Quantity -= 1;
+      cartItem.totalPrice = product.Price * cartItem.Quantity;
+      await cartItem.save();
+      res.json({ message: 'Success', cartItem, status: true });
+      console.log(cartItem, "cartItemscartItems");
+    } else {
+      res.status(400).json({ message: 'Quantity cannot be less than one', status: false });
+    }
   } catch (error) {
-    console.error('Error fetching  products:', error);
+    console.error('Error fetching products:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 //Product Quantity increment
 router.put('/cart/inc/:id', async (req, res) => {
-  const cartId = req.params.id
-  console.log(cartId, "cartIdcartId")
-  let { productId } = await Cart.findById(cartId)
-  console.log(productId, "productIdproductIdproductId")
-  let { Price } = await Product.findById(productId)
-  console.log(Price, "productPriceproductPriceproductPrice")
+  const cartId = req.params.id;
+  console.log(cartId, "cartIdcartId");
+
   try {
-    const cartItems = await Cart.findOneAndUpdate({_id:cartId,productId:productId})
-    if (cartItems) {
-      cartItems.Quantity += 1;
-      cartItems.totalPrice = Price * cartItems.Quantity;
-      await cartItems.save();
+    const cartItem = await Cart.findById(cartId);
+    if (!cartItem) {
+      return res.status(404).json({ message: 'Cart item not found' });
     }
-    res.json({ message: 'Success', cartItems,status:true});
-    console.log(cartItems, "cartItemscartItems")
+    console.log(cartItem.productId, "productIdproductIdproductId");
+    const product = await Product.findById(cartItem.productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    console.log(product.Price, "productPriceproductPriceproductPrice");
+    cartItem.Quantity += 1;
+    cartItem.totalPrice = product.Price * cartItem.Quantity;
+    await cartItem.save();
+
+    res.json({ message: 'Success', cartItem, status: true });
+    console.log(cartItem, "cartItemscartItems");
   } catch (error) {
-    console.error('Error fetching  products:', error);
+    console.error('Error fetching products:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -174,7 +235,7 @@ router.get('/products', async (req, res) => {
     console.log(products)
   } catch (error) {
     console.error('Error fetching products:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' })
   }
 });
 
@@ -350,9 +411,9 @@ router.put('/subcategory/:subcategoryid', async (req, res) => {
 //Update The Already Exisiting Product Name or Any Other Data
 router.put('/product/:productId', upload.single('File'), async (req, res) => {
   const productId = req.params.productId;
-  console.log(productId,"productIdproductIdproductId")
+  console.log(productId, "productIdproductIdproductId")
   const { ProductName, Price, Description, Quantity, Category, SubCategory, Brand } = req.body;
-  console.log(ProductName, Price,  Quantity, Category, SubCategory, Brand)
+  console.log(ProductName, Price, Quantity, Category, SubCategory, Brand)
   try {
 
     // Validate and convert Category and SubCategory if provided

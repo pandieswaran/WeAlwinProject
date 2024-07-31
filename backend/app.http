@@ -21,10 +21,5 @@ GET  http://localhost:8000/products/669e473d47294007785ed70a'
 
 
 ###
+PUT http://localhost:8000/cart/buy/66a8d451c2bc3ef6bf59f7c3
 
-GET http://localhost:8000/productf/669e475c47294007785ed711
-
-
-{
-    
-}

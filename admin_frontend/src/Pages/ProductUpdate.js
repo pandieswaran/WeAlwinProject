@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   Category: yup.string().required('Category is required'),
   SubCategory: yup.string().required('Subcategory is required'),
   Brand: yup.string().required('Brand is required'),
-  File: yup.mixed().nullable() // Adjust validation as needed
+  File: yup.mixed().nullable()
 });
 
 
@@ -25,6 +25,7 @@ function ProductUpdate() {
   const [categories, setCategories] = useState([]);
   const [image, setImage] = useState('');
   const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -69,9 +70,6 @@ function ProductUpdate() {
 
         const productData = response.data;
         console.log(productData.Category.CategoryName, "yyyyyyyyyyyyy")
-        
-      
-
 
         setInitialValues({
           ProductName: productData.ProductName || '',
@@ -79,7 +77,7 @@ function ProductUpdate() {
           Description: productData.Description || '',
           Quantity: productData.Quantity || '',
           // Category: productData.Category ? productData.Category._id : '',
-          Category: productData.Category._id,
+          Category: productData.Category.CategoryName,
           SubCategory: productData.SubCategory.SubCategory,
           Brand: productData.Brand || '',
           File: null
@@ -91,7 +89,7 @@ function ProductUpdate() {
     };
     fetchProduct();
   }, [productId]);
-
+              console.log(initialValues,"5664")
   const handleFormSubmit = async (values, { setSubmitting }) => {
     try {
       const formData = new FormData();
@@ -132,7 +130,7 @@ function ProductUpdate() {
           onSubmit={handleFormSubmit}
           enableReinitialize
         >
-          {({ handleSubmit, handleChange, setFieldValue, values, touched, errors }) => (
+          {({ handleSubmit, handleChange, handleBlur, setFieldValue, values, touched, errors }) => (
             <Form noValidate onSubmit={handleSubmit} className="pform">
               <h4 className="text-center">Edit Product</h4>
 
@@ -197,11 +195,15 @@ function ProductUpdate() {
                 <Form.Control
                   as="select"
                   name="Category"
-                  value={values.Category}
-                  onChange={handleChange}
+                  value={values.Category.CategoryName}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setSelectedCategory(e.target.value);
+                    setFieldValue('SubCategory', ''); 
+                  }}
                   isInvalid={touched.Category && !!errors.Category}
                 >
-                  {/* <option value={Values.Category.CategoryName}/> */}
+                  <option>{values.Category.CategoryName}</option>
                   {categories.map(category => (
                     <option key={category._id} value={category._id}>
                       {category.CategoryName}
@@ -212,7 +214,6 @@ function ProductUpdate() {
                   {errors.Category}
                 </Form.Control.Feedback>
               </Form.Group>
-
               <Form.Group controlId="validationSubCategory" className="mb-3">
                 <Form.Label>Subcategory</Form.Label>
                 <Form.Control
@@ -222,12 +223,14 @@ function ProductUpdate() {
                   onChange={handleChange}
                   isInvalid={touched.SubCategory && !!errors.SubCategory}
                 >
-                  {/* <option value="">Select Subcategory...</option> */}
-                  {subCategories.map(subcategory => (
-                    <option key={subcategory._id} value={subcategory._id}>
-                      {subcategory.SubCategory}
-                    </option>
-                  ))}
+                  <option value="">Select Subcategory...</option>
+                  {subCategories
+                    .filter(subcategory => subcategory.CategoryId === selectedCategory) // Filter subcategories based on selected category
+                    .map(subcategory => (
+                      <option key={subcategory._id} value={subcategory._id}>
+                        {subcategory.SubCategory}
+                      </option>
+                    ))}
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">
                   {errors.SubCategory}
