@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 // import './App.css';
 import LoginPage from './Pages/LoginPage'
 import HomePage from './Pages/HomePage'
@@ -48,7 +48,7 @@ function App() {
                                 <Route path="/profile_update" element={<ProfileUpdate />} />
                             </>
                         ) : (
-                            <Route path="*" element={<LoginPage />} />
+                            <Route path="*" element={<Navigate to = "/login" replace />} />
                         )}
                     </Routes>
             </Router>
